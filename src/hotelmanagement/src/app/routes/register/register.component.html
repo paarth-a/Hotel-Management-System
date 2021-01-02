@@ -1,0 +1,49 @@
+<div class="main-container">
+    <mat-card>
+    <div class="data-box">
+      <h1 class="title">
+        Register
+      </h1>
+      <form (submit)="register(registerForm)" #registerForm="ngForm" class="registerForm">
+          
+          <mat-form-field>
+            <input matInput name="useremail" ngModel type="email" placeholder="Email" #useremailInput="ngModel" required email>
+            <mat-error *ngIf="useremailInput.invalid">Please enter a valid email.</mat-error>
+          </mat-form-field>
+          <mat-form-field>
+            <input matInput name="password" ngModel type="password" placeholder="Password" #passwordInput="ngModel" required>
+            <mat-error *ngIf="passwordInput.invalid">Please enter a password.</mat-error>
+          </mat-form-field>
+          <mat-form-field>
+            <input type="text" name="firstname" ngModel matInput placeholder="First Name" #firstnameInput="ngModel" required>
+            <mat-error *ngIf="firstnameInput.invalid">Please enter a first name.</mat-error>
+          </mat-form-field>
+          <mat-form-field>
+            <input type="text" name="lastname" ngModel matInput placeholder="Last Name" #lastnameInput="ngModel" required>
+            <mat-error *ngIf="lastnameInput.invalid">Please enter a last name.</mat-error>
+          </mat-form-field>
+          <mat-form-field>
+            <input type="text" name="phonenumber" ngModel matInput placeholder="Phoner Number" #phonenumberInput="ngModel" required>
+            <mat-error *ngIf="phonenumberInput.invalid">Please enter a phone number.</mat-error>
+          </mat-form-field>
+          <mat-form-field>
+            <input type="text" name="dob" ngModel matInput placeholder="Date Of Birth i.e 1999-06-06" #dobInput="ngModel" required>
+            <mat-error *ngIf="dobInput.invalid">Please enter a date of birth.</mat-error>
+          </mat-form-field>
+          <mat-form-field>
+            <input type="text" name="role" ngModel matInput placeholder="Role" #roleInput="ngModel" required>
+            <mat-error *ngIf="roleInput.invalid">Please specify your role.</mat-error>
+          </mat-form-field>
+
+          <button mat-raised-button type="submit">Submit</button>
+
+          <div class="alt-register-options">
+            <p>Already have an account? <a routerLink="/login">Log in</a>
+          </div>
+
+        </form>
+      </div>
+    </mat-card>
+    </div>
+  
+

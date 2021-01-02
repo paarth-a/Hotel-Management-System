@@ -1,0 +1,31 @@
+<div class="main-container">
+  <mat-card>
+  <div class="data-box">
+    <h1 class="title">
+      Login
+    </h1>
+    <form (submit)="login(loginForm)" #loginForm="ngForm" class="loginForm">
+
+      <mat-form-field>
+        <input matInput name="useremail" ngModel type="email" placeholder="Email" #useremailInput="ngModel" required email>
+        <mat-error *ngIf="useremailInput.invalid">Please enter a valid email.</mat-error>
+      </mat-form-field>
+      <mat-form-field>
+        <input matInput name="password" ngModel type="password" placeholder="Password" #passwordInput="ngModel" required>
+        <mat-error *ngIf="passwordInput.invalid">Please enter a password.</mat-error>
+      </mat-form-field>
+      <mat-form-field>
+        <input type="text" name="type" ngModel matInput placeholder="Role" #typeInput="ngModel" required>
+        <mat-error *ngIf="typeInput.invalid">Please enter your role.</mat-error>
+      </mat-form-field>
+
+        <button mat-raised-button type="submit">Submit</button>
+        <div class="alt-login-options">
+          <p>Don't have an account? <a routerLink="/register">Register</a>
+        </div>
+      </form>
+    </div>
+  </mat-card>
+  </div>
+
+

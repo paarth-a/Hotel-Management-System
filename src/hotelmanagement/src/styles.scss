@@ -1,0 +1,43 @@
+/* You can add global styles to this file, and also import other style files */
+$lightblue:  #4662a0;
+$dark-blue: #1d1ada;
+$dark: #000000;
+$red: #DC143C;
+$white: #FFFAF0;
+
+*{
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Poppins', sans-serif;
+}
+
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500&display=swap');
+
+select{
+  border: none;
+  outline: none;
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.2);
+  padding: .4rem;
+  border-radius: .4rem;
+  margin: 3rem auto;
+}
+
+.select-container{
+  display: flex;
+  justify-content: center;
+}
+
+/* material tab color change */
+.mat-tab-group.mat-primary .mat-ink-bar, .mat-tab-nav-bar.mat-primary .mat-ink-bar {
+  background-color: black;
+}
+
+/* center material tabs */
+.mat-tab-labels {
+  justify-content: center;
+}
+
+.clickable {
+  cursor: pointer;
+}

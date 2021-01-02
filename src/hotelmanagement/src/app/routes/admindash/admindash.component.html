@@ -1,0 +1,522 @@
+<div class="centered">
+    <div class="dashboard-view">
+        <div class = "admin-side">
+         <h2 class="title">Manage hotelUs</h2>
+    </div>
+
+    <mat-tab-group (selectedTabChange)="clearData($event)">
+
+        <!-- Property related functionality for user -->
+        <mat-tab label="Property">
+
+            <div class="select-container">
+                <select (change)="onChange($event.target.value)">
+                    <option selected value="getAllProperties">Get All Properties</option>
+                    <option value=highestSpenders>Find highest spenders across all properties</option>
+                    <option value=highestRatedProperty>Find the highest rated properties</option>
+                    <option value=highestImpactAmenity>Find the amenities that result in the highest rating</option>
+                    <option value=highestEarningProperties>Find the highest earning properties</option>
+                    <option value=getReservationsProperty>Get Reservations For Property</option>
+                </select>
+            </div>
+
+
+                <!--highestSpenders-->
+                <form (submit)="highestSpenders(adminForm1)" #adminForm1="ngForm" class="adminForm" *ngIf="mode === 'highestSpenders'">
+
+                <h1>Highest spenders</h1>
+
+                <mat-form-field>
+                  <input matInput name="n" ngModel type="text" placeholder="Number of spenders" #nInput="ngModel" required>
+                  <mat-error *ngIf="nInput.invalid">Enter number of spenders</mat-error>
+                </mat-form-field>
+
+                  <button mat-raised-button type="submit">Find</button>
+                </form>
+
+                <!--highestSpenders-->
+                <form (submit)="getProperties()" #adminForm1="ngForm" class="adminForm" *ngIf="mode === 'getAllProperties'">
+
+                  <h1>Get All Properties</h1>
+
+                  <button mat-raised-button type="submit">Get</button>
+                </form>
+
+                <form (submit)="getAllReservationsForProperty(property_nameInput.value)" #adminForm5="ngForm" class="adminForm" *ngIf="mode === 'getReservationsProperty'">
+
+                  <h1>Select Property</h1>
+
+                  <mat-form-field>
+                    <input matInput name="property_name" [(ngModel)]="selectedProperty" type="text" placeholder="Property Name" #property_nameInput="ngModel" required>
+                    <mat-error *ngIf="property_nameInput.invalid">Enter Name</mat-error>
+                  </mat-form-field>
+
+                    <button mat-raised-button type="submit">Search Reservations</button>
+                  </form>
+
+
+                <!--highestRatedProperty-->
+                <form (submit)="highestRatedProperty(adminForm2)" #adminForm2="ngForm" class="adminForm" *ngIf="mode === 'highestRatedProperty'">
+
+                <h1>Highest rated properties</h1>
+
+                 <button mat-raised-button type="submit">Find</button>
+                 </form>
+
+
+                 <!--highestImpactAmenity-->
+                 <form (submit)="highestImpactAmenity(adminForm3)" #adminForm3="ngForm" class="adminForm" *ngIf="mode === 'highestImpactAmenity'">
+
+                    <h1>Amenities that result in the highest property rating</h1>
+
+                    <button mat-raised-button type="submit">Find</button>
+                </form>
+
+                <!--highestEarningProperties-->
+                <form (submit)="highestEarningProperties(adminForm4)" #adminForm4="ngForm" class="adminForm" *ngIf="mode === 'highestEarningProperties'">
+
+                <h1>Highest earning properties</h1>
+
+                    <button mat-raised-button type="submit">Find</button>
+                </form>
+
+        </mat-tab>
+
+
+        <mat-tab label="Reservation">
+
+            <div class="select-container">
+                <select (change)="onChange($event.target.value)">
+                    <option selected value=assignGuest>Assign a guest to a reservation</option>
+                </select>
+            </div>
+
+            <!--frequentReviewers-->
+
+
+                        <!--assign guest to reservation-->
+                        <form (submit)="assignGuest(adminForm9)" #adminForm9="ngForm" class="adminForm" *ngIf="mode === 'assignGuest'">
+
+                            <h1>Assign a guest to a reservation</h1>
+
+                            <mat-form-field>
+                                <input matInput name="reservation_id" [(ngModel)]="selectedReservation" type="text" placeholder="Reservation id" #reservationIdInput="ngModel" required>
+                                <mat-error *ngIf="reservationIdInput.invalid">Enter reservation id</mat-error>
+                              </mat-form-field>
+
+                              <mat-form-field>
+                                <input matInput name="phone" [(ngModel)]="selectedGuest.phone" type="text" placeholder="Phone number" #phoneInput="ngModel" required>
+                                <mat-error *ngIf="phoneInput.invalid">Enter phone number</mat-error>
+                              </mat-form-field>
+
+                              <mat-form-field>
+                                <input matInput name="first_name" [(ngModel)]="selectedGuest.first_name" type="text" placeholder="First name" #firstNameInput="ngModel" required>
+                                <mat-error *ngIf="firstNameInput.invalid">Enter first name</mat-error>
+                              </mat-form-field>
+
+                              <mat-form-field>
+                                <input matInput name="last_name" [(ngModel)]="selectedGuest.last_name" type="text" placeholder="Last name" #lastNameInput="ngModel" required>
+                                <mat-error *ngIf="lastNameInput.invalid">Enter last name</mat-error>
+                              </mat-form-field>
+
+                              <mat-form-field>
+                                <input matInput name="dob" [(ngModel)]="selectedGuest.dob" type="text" placeholder="Date of Birth" #dobInput="ngModel" required>
+                                <mat-error *ngIf="dobInput.invalid">Enter date of birth</mat-error>
+                              </mat-form-field>
+
+                            <button mat-raised-button type="submit">Find</button>
+                            </form>
+
+        </mat-tab>
+
+        <mat-tab label="Reviews">
+
+            <div class="select-container">
+                <select (change)="onChange($event.target.value)">
+                    <option selected value=frequentReviewers>Find the most frequent reviewers and their ratings</option>
+                </select>
+            </div>
+
+            <!--frequentReviewers-->
+            <form (submit)="frequentReviewers(adminForm5)" #adminForm5="ngForm" class="adminForm" *ngIf="mode === 'frequentReviewers'">
+
+            <h1>Most frequent reviewers</h1>
+
+            <button mat-raised-button type="submit">Find</button>
+            </form>
+
+        </mat-tab>
+
+        <mat-tab label="Dates">
+          <div class="select-container">
+            <select (change)="onChange($event.target.value)">
+                <option selected value=getAllDates>Get All Dates</option>
+                <option value=createDatesinRange>Create Dates in Range</option>
+                <option value=editHoliday>Edit a Holiday</option>
+                <option value=createDateRoom>Create Dates for a Room Type</option>
+            </select>
+        </div>
+        <form (submit)="getAllDates()" #adminForm20="ngForm" class="adminForm" *ngIf="mode === 'getAllDates'">
+
+          <h1>Get All Dates</h1>
+
+          <button mat-raised-button type="submit">Get Dates</button>
+          </form>
+          <form (submit)="createDatesInRange(adminForm21)" #adminForm21="ngForm" class="adminForm" *ngIf="mode === 'createDatesinRange'">
+
+            <h1>Create Dates in Range</h1>
+            <mat-form-field>
+              <input matInput name="start_date" ngModel type="text" placeholder="Start Date i.e 2020-12-10 " #startDateInput="ngModel" required>
+              <mat-error *ngIf="startDateInput.invalid">Enter start Date</mat-error>
+            </mat-form-field>
+            <mat-form-field>
+              <input matInput name="end_date" ngModel type="text" placeholder="End Date i.e 2021-03-03" #endDateInput="ngModel" required>
+              <mat-error *ngIf="endDateInput.invalid">Enter End Date</mat-error>
+            </mat-form-field>
+            <button mat-raised-button type="submit">Create Dates</button>
+            </form>
+
+
+            <form (submit)="editHoliday(adminForm22)" #adminForm22="ngForm" class="adminForm" *ngIf="mode === 'editHoliday'">
+
+              <h1>Edit Holiday</h1>
+              <mat-form-field>
+                <input matInput name="date" [(ngModel)]="selectedDate" type="text" placeholder="Date i.e 2020-12-10 " #DateInput="ngModel" required>
+                <mat-error *ngIf="DateInput.invalid">Enter  Date</mat-error>
+              </mat-form-field>
+              <mat-form-field>
+                <input matInput name="is_Holiday" ngModel type="text" placeholder="Is Holiday (y,n) " #isHolidayInput="ngModel" required>
+                <mat-error *ngIf="isHolidayInput.invalid">Enter Holiday Value</mat-error>
+              </mat-form-field>
+              <button mat-raised-button type="submit">Edit Holiday</button>
+              </form>
+
+
+              <form (submit)="createDatesForRoomType(adminForm23)" #adminForm23="ngForm" class="adminForm" *ngIf="mode === 'createDateRoom'">
+
+                <h1>Create Date For Room Type</h1>
+                <mat-form-field>
+                  <input matInput name="start_date" ngModel type="text" placeholder="Date i.e 2020-12-10 " #startDateInput="ngModel" required>
+                  <mat-error *ngIf="startDateInput.invalid">Enter Start Date</mat-error>
+                </mat-form-field>
+                <mat-form-field>
+                  <input matInput name="end_date" ngModel type="text" placeholder="Date i.e 2020-13-10 " #endDateInput="ngModel" required>
+                  <mat-error *ngIf="endDateInput.invalid">Enter End Date</mat-error>
+                </mat-form-field>
+                <mat-form-field>
+                  <input matInput name="room_type" ngModel type="text" placeholder="Double, Queen, Suite" #roomTypeInput="ngModel" required>
+                  <mat-error *ngIf="roomTypeInput.invalid">Enter Room Type</mat-error>
+                </mat-form-field>
+                <mat-form-field>
+                  <input matInput name="rate" ngModel type="text" placeholder="Rate" #rateInput="ngModel" required>
+                  <mat-error *ngIf="rateInput.invalid">Enter Rate</mat-error>
+                </mat-form-field>
+                <mat-form-field>
+                  <input matInput name="property_name" [(ngModel)]="selectedProperty" type="text" placeholder="Sheraton Centre" #propertyNameInput="ngModel" required>
+                  <mat-error *ngIf="propertyNameInput.invalid">Enter Property Name</mat-error>
+                </mat-form-field>
+
+                <button mat-raised-button type="submit">Create Date For Room</button>
+                </form>
+
+
+
+
+
+
+        </mat-tab>
+
+        <mat-tab label="Rooms">
+          <div class="select-container">
+            <select (change)="onChange($event.target.value)">
+                <option selected value=getRoomBetweenDates>Get Room Between Dates</option>
+                <option value=updateRoomDate>Update Room Date</option>
+
+            </select>
+        </div>
+        <form (submit)="getRoomDatesBetweenDates(adminForm25)" #adminForm25="ngForm" class="adminForm" *ngIf="mode === 'getRoomBetweenDates'">
+
+          <h1>Get Room Between Dates</h1>
+          <mat-form-field>
+            <input matInput name="start_date" ngModel type="text" placeholder="Date i.e 2019-03-03 " #startDateInput="ngModel" required>
+            <mat-error *ngIf="startDateInput.invalid">Enter Start Date</mat-error>
+          </mat-form-field>
+          <mat-form-field>
+            <input matInput name="end_date" ngModel type="text" placeholder="Date i.e 2019-03-06 " #endDateInput="ngModel" required>
+            <mat-error *ngIf="endDateInput.invalid">Enter End Date</mat-error>
+          </mat-form-field>
+          <mat-form-field>
+
+              <input matInput name="property_name" [(ngModel)]="selectedProperty" type="text" placeholder="Candlewood Suites" #propertyNameInput="ngModel" required>
+              <mat-error *ngIf="propertyNameInput.invalid">Enter Property Name</mat-error>
+            </mat-form-field>
+
+          <button mat-raised-button type="submit">Get Room Dates</button>
+          </form>
+        <form (submit)="updateRoomDate(adminForm24)" #adminForm24="ngForm" class="adminForm" *ngIf="mode === 'updateRoomDate'">
+
+          <h1>Update Room Date</h1>
+          <mat-form-field>
+
+              <input matInput name="property_name" [(ngModel)]="selectedProperty" type="text" placeholder="Candlewood Suites" #propertyNameInput="ngModel" required>
+              <mat-error *ngIf="propertyNameInput.invalid">Enter Property Name</mat-error>
+            </mat-form-field>
+            <mat-form-field>
+              <input matInput name="room_num" ngModel type="text" placeholder="2" #roomNumInput="ngModel" required>
+              <mat-error *ngIf="roomNumInput.invalid">Enter Room Number</mat-error>
+            </mat-form-field>
+            <mat-form-field>
+            <input matInput name="date" ngModel type="text" placeholder="Date i.e 2019-03-03 " #DateInput="ngModel" required>
+            <mat-error *ngIf="DateInput.invalid">Enter Date</mat-error>
+          </mat-form-field>
+          <mat-form-field>
+            <input matInput name="rate" ngModel type="text" placeholder="10000" #rateInput="ngModel" required>
+            <mat-error *ngIf="rateInput.invalid">Enter Rate</mat-error>
+          </mat-form-field>
+          <mat-form-field>
+            <input matInput name="reservation_id" ngModel type="text" placeholder="12 (Optional)" #reservationIDInput="ngModel" >
+          </mat-form-field>
+
+
+
+          <button mat-raised-button type="submit">Update Room Date</button>
+          </form>
+
+
+
+
+
+
+        </mat-tab>
+
+        <mat-tab label="Guest">
+
+            <div class="select-container">
+                <select (change)="onChange($event.target.value)">
+                    <option selected value=addNewGuest>Add a new guest</option>
+                    <option value=updateGuest>Update an existing guests information</option>
+                    <option value=getGuests>Get guests</option>
+                    <option value= getGuestsReservation>Get Guests for Reservation</option>
+                    <option value= deleteAGuest>Delete A Guest</option>
+                </select>
+            </div>
+
+            <!--addNewGuest-->
+            <form (submit)="addNewGuest(adminForm6)" #adminForm6="ngForm" class="adminForm" *ngIf="mode === 'addNewGuest'">
+
+            <h1>Add a new guest</h1>
+
+            <mat-form-field>
+                <input matInput name="first_name" ngModel type="text" placeholder="First name" #firstNameInput="ngModel" required>
+                <mat-error *ngIf="firstNameInput.invalid">Enter first name</mat-error>
+              </mat-form-field>
+              <mat-form-field>
+                <input matInput name="last_name" ngModel type="text" placeholder="Last name" #lastNameInput="ngModel" required>
+                <mat-error *ngIf="lastNameInput.invalid">Enter last name</mat-error>
+              </mat-form-field>
+              <mat-form-field>
+                <input matInput name="phone" ngModel type="text" placeholder="Phone number: 123-456-7890" #phoneInput="ngModel" required>
+                <mat-error *ngIf="phoneInput.invalid">Enter phone number</mat-error>
+              </mat-form-field>
+              <mat-form-field>
+                <input matInput name="dob" ngModel type="text" placeholder="DOB: YYYY-MM-DD" #dobInput="ngModel" required>
+                <mat-error *ngIf="dobInput.invalid">Enter date of birth</mat-error>
+              </mat-form-field>
+
+            <button mat-raised-button type="submit">Find</button>
+            </form>
+
+            <!--update exisitng guest-->
+            <form (submit)="updateGuest(adminForm7)" #adminForm7="ngForm" class="adminForm" *ngIf="mode === 'updateGuest'">
+
+                <h1>Update an existing guest</h1>
+
+                <mat-form-field>
+                    <input matInput name="old_first_name" [(ngModel)]="selectedGuest.first_name" type="text" placeholder="First name" #oldFirstNameInput="ngModel" required>
+                    <mat-error *ngIf="oldFirstNameInput.invalid">Existing first name</mat-error>
+                  </mat-form-field>
+                  <mat-form-field>
+                    <input matInput name="old_last_name" [(ngModel)]="selectedGuest.last_name" type="text" placeholder="Last name" #oldLastNameInput="ngModel" required>
+                    <mat-error *ngIf="oldLastNameInput.invalid">Existing last name</mat-error>
+                  </mat-form-field>
+                  <mat-form-field>
+                    <input matInput name="old_phone" [(ngModel)]="selectedGuest.phone" type="text" placeholder="Phone number: 123-456-7890" #oldPhoneInput="ngModel" required>
+                    <mat-error *ngIf="oldPhoneInput.invalid">Existing phone number</mat-error>
+                  </mat-form-field>
+                  <mat-form-field>
+                    <input matInput name="old_dob" [(ngModel)]="selectedGuest.dob" type="text" placeholder="DOB: YYYY-MM-DD" #oldDobinput="ngModel" required>
+                    <mat-error *ngIf="oldDobinput.invalid">Existing date of birth</mat-error>
+                  </mat-form-field>
+
+                  <mat-form-field>
+                    <input matInput name="new_first_name" ngModel type="text" placeholder="First name" #newFirstNameInput="ngModel" required>
+                    <mat-error *ngIf="newFirstNameInput.invalid">New first name</mat-error>
+                  </mat-form-field>
+                  <mat-form-field>
+                    <input matInput name="new_last_name" ngModel type="text" placeholder="Last name" #newLastNameInput="ngModel" required>
+                    <mat-error *ngIf="newLastNameInput.invalid">New last name</mat-error>
+                  </mat-form-field>
+                  <mat-form-field>
+                    <input matInput name="new_phone" ngModel type="text" placeholder="Phone number: 123-456-7890" #newPhoneInput="ngModel" required>
+                    <mat-error *ngIf="newPhoneInput.invalid">New phone number</mat-error>
+                  </mat-form-field>
+                  <mat-form-field>
+                    <input matInput name="new_dob" ngModel type="text" placeholder="DOB: YYYY-MM-DD" #newDobinput="ngModel" required>
+                    <mat-error *ngIf="newDobinput.invalid">New date of birth</mat-error>
+                  </mat-form-field>
+
+                <button mat-raised-button type="submit">Find</button>
+                </form>
+
+                            <!--update existing guest-->
+            <form (submit)="getGuests(adminForm8)" #adminForm8="ngForm" class="adminForm" *ngIf="mode === 'getGuests'">
+
+                <h1>Find all guests</h1>
+
+                <button mat-raised-button type="submit">Find</button>
+
+                </form>
+
+                <form (submit)="getGuestsForReservation(reservationIDInput.value)" #adminForm30="ngForm" class="adminForm" *ngIf="mode === 'getGuestsReservation'">
+
+                  <h1>Get Guests For Reservation</h1>
+                  <mat-form-field>
+                    <input matInput name="reservation_id" [(ngModel)]="selectedReservation" type="text" placeholder="7" #reservationIDInput="ngModel" required>
+                    <mat-error *ngIf="reservationIDInput.invalid">Enter Reservation ID</mat-error>
+                  </mat-form-field>
+                  <button mat-raised-button type="submit">Find</button>
+
+                  </form>
+                  <form (submit)="deleteAGuest(adminForm31)" #adminForm31="ngForm" class="adminForm" *ngIf="mode === 'deleteAGuest'">
+
+                    <h1>Delete A Guest</h1>
+                    <mat-form-field>
+                      <input matInput name="first_name" [(ngModel)]="selectedGuest.first_name" type="text" placeholder="First name" #firstNameInput="ngModel" required>
+                      <mat-error *ngIf="firstNameInput.invalid">Enter first name</mat-error>
+                    </mat-form-field>
+                    <mat-form-field>
+                      <input matInput name="last_name" [(ngModel)]="selectedGuest.last_name" type="text" placeholder="Last name" #lastNameInput="ngModel" required>
+                      <mat-error *ngIf="lastNameInput.invalid">Enter last name</mat-error>
+                    </mat-form-field>
+                    <mat-form-field>
+                      <input matInput name="phone_number" [(ngModel)]="selectedGuest.phone" type="text" placeholder="Phone number: 123-456-7890" #phoneInput="ngModel" required>
+                      <mat-error *ngIf="phoneInput.invalid">Enter phone number</mat-error>
+                    </mat-form-field>
+                    <mat-form-field>
+                      <input matInput name="dob" [(ngModel)]="selectedGuest.dob" type="text" placeholder="DOB: YYYY-MM-DD" #dobInput="ngModel" required>
+                      <mat-error *ngIf="dobInput.invalid">Enter date of birth</mat-error>
+                    </mat-form-field>
+                    <button mat-raised-button type="submit">Delete</button>
+
+                    </form>
+
+
+            </mat-tab>
+
+        </mat-tab-group>
+
+
+
+
+
+        <!--Search results will be displayed here (display modified based on search type)-->
+        <div class="result-container">
+
+            <div *ngIf="mode === 'getAllProperties'">
+              <div *ngFor="let r of results" class="result-item col-2 clickable" (click)="selectProperty(r.property_name)">
+                <p>{{ "Property Name: " + r.property_name}}</p>
+                <p>{{ "Phone Number: " + r.phone_number}}</p>
+                <p>{{ "Street Address: " + r.street_address}}</p>
+                <p>{{ "Unit Number: " + r.unit_number}}</p>
+                <p>{{ "Country: " + r.country}}</p>
+                <p>{{ "Postal Code: " + r.postal_code}}</p>
+              </div>
+            </div>
+
+            <div *ngIf="mode === 'highestSpenders'">
+                <div *ngFor="let r of results" class="result-item col-2">
+                    <p>{{ "User email: " + r.user_email }}</p>
+                    <p>{{ "Total spend: " + r.total_spend }}</p>
+                </div>
+            </div>
+
+            <div *ngIf="mode === 'highestRatedProperty'">
+                <div *ngFor="let r of results" class="result-item col-2">
+                    <p>{{ "Property name: " + r.property_name }}</p>
+                    <p>{{ "Average rating: " + r.avg_rating }}</p>
+                </div>
+            </div>
+            <div *ngIf="mode === 'getReservationsProperty'">
+              <div *ngFor="let r of results" class="result-item col-6 clickable" (click)="selectReservation(r.reservation_id)">
+                  <p>{{ "Property name: " + r.property_name }}</p>
+                  <p>{{ "Check In: " + r.check_in }}</p>
+                  <p>{{ "Check Out: " + r.check_out }}</p>
+                  <p>{{ "Reservation ID: " + r.reservation_id }}</p>
+                  <p>{{ "Total Price: " + r.total_price }}</p>
+                  <p>{{ "Email: " + r.user_email}}</p>
+              </div>
+          </div>
+
+            <div *ngIf="mode === 'highestImpactAmenity'">
+                <div *ngFor="let r of results" class="result-item col-2">
+                    <p>{{ "Amenity name: " + r.amenity_name }}</p>
+                    <p>{{ "Average rating: " + r.avg_rating }}</p>
+                </div>
+            </div>
+
+            <div *ngIf="mode === 'highestEarningProperties'">
+              <div *ngFor="let r of results" class="result-item col-2">
+                  <p>{{ "Property name: " + r.property_name }}</p>
+                  <p>{{ "Earnings: " + r.max_value }}</p>
+              </div>
+          </div>
+
+            <div *ngIf="mode === 'frequentReviewers'">
+                <div *ngFor="let r of results" class="result-item col-3">
+                    <p>{{ "User email: " + r.user_email }}</p>
+                    <p>{{ "Average rating: " + r.avg_rating }}</p>
+                    <p>{{ "Number of reviews: " + r.num_of_reviews }}</p>
+                </div>
+            </div>
+
+            <div *ngIf="mode === 'getGuests'">
+                <div *ngFor="let r of results" class="result-item col-4 clickable" (click)="selectGuest(r.first_name, r.last_name, r.phone_number, r.dob.substring(0,10))">
+                    <p>{{ "First name: " + r.first_name }}</p>
+                    <p>{{ "Last name: " + r.last_name }}</p>
+                    <p>{{ "Phone number: " + r.phone_number }}</p>
+                    <p>{{ "Date of birth: " + r.dob.substring(0, 10) }}</p>
+                </div>
+            </div>
+
+            <div *ngIf="mode === 'getAllDates'">
+              <div *ngFor="let r of results" class="result-item col-2 clickable" (click)="selectDate(r.date.substring(0, 10))">
+                <p>{{ "Date: " + r.date.substring(0, 10) }}</p>
+                <p>{{ "Is Holiday: " + r.isHoliday}}</p>
+              </div>
+          </div>
+
+          <div *ngIf="mode === 'getRoomBetweenDates'">
+            <div *ngFor="let r of results" class="result-item col-6 clickable" (click)="selectRoom(r.room_num); selectDate(r.date);">
+              <p>{{ "Property name: " + r.property_name }}</p>
+              <p>{{ "Date: " + r.date.substring(0, 10) }}</p>
+              <p>{{ "Rate: " + r.rate }}</p>
+              <p>{{ "Reservation ID: " + r.reservation_id }}</p>
+              <p>{{ "Room Number: " + r.room_num }}</p>
+            </div>
+        </div>
+        <div *ngIf="mode === 'getGuestsReservation'">
+          <div *ngFor="let r of results" class="result-item col-4 clickable" (click)="selectGuest(r.first_name, r.last_name, r.phone_number, r.dob.substring(0,10))">
+              <p>{{ "First name: " + r.first_name }}</p>
+              <p>{{ "Last name: " + r.last_name }}</p>
+              <p>{{ "Phone number: " + r.phone_number }}</p>
+              <p>{{ "Date of birth: " + r.dob.substring(0, 10) }}</p>
+          </div>
+      </div>
+
+
+
+        </div>
+
+
+    </div>
+</div>

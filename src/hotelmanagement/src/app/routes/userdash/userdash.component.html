@@ -1,0 +1,344 @@
+<div class="centered">
+    <div class="dashboard-view">
+        <div class = "user-side">
+         <h2 class="title">How can we help you today?</h2>
+    </div>
+
+
+
+    <mat-tab-group (selectedTabChange)="clearData($event)">
+
+        <!-- Property related functionality for user -->
+        <mat-tab label="Properties">
+
+            <div class="select-container">
+                <select (change)="onChange($event.target.value)">
+                    <option value=searchProperties>Find properties based on your availability</option>
+                    <option value=searchPropertiesByCity>Find properties by city</option>
+                    <option value=searchPropertiesByName>Find properties by name</option>
+                    <option value=getRoomsAtProperty>Find rooms at property</option>
+                </select>
+            </div>
+
+            <form (submit)="searchProperties(propertyForm1)" #propertyForm1="ngForm" class="propertyForm" *ngIf="propertyMode === 'searchProperties'">
+
+            <h1>Find properties available for reservation.</h1>
+
+                <mat-form-field>
+                  <input matInput name="check_in" ngModel type="text" placeholder="Check in date" #checkInInput="ngModel" required>
+                  <mat-error *ngIf="checkInInput.invalid">Please enter a check in date.</mat-error>
+                </mat-form-field>
+                <mat-form-field>
+                    <input matInput name="check_out" ngModel type="text" placeholder="Check out date" #checkOutInput="ngModel" required>
+                    <mat-error *ngIf="checkOutInput.invalid">Please enter a check out date.</mat-error>
+                  </mat-form-field>
+
+                  <button mat-raised-button type="submit" (click)="selectDates(checkInInput.value, checkOutInput.value)">Submit</button>
+                </form>
+
+                <form (submit)="searchPropertiesByCity(propertyForm2)" #propertyForm2="ngForm" class="propertyForm" *ngIf="propertyMode === 'searchPropertiesByCity'">
+
+                    <h1>Find available properties by city</h1>
+
+                        <mat-form-field>
+                          <input matInput name="check_in" ngModel type="text" placeholder="Check in date" #checkInInput="ngModel" required>
+                          <mat-error *ngIf="checkInInput.invalid">Please enter a check in date.</mat-error>
+                        </mat-form-field>
+
+                        <mat-form-field>
+                            <input matInput name="check_out" ngModel type="text" placeholder="Check out date" #checkOutInput="ngModel" required>
+                            <mat-error *ngIf="checkOutInput.invalid">Please enter a check out date.</mat-error>
+                          </mat-form-field>
+
+                          <mat-form-field>
+                            <input matInput name="city" ngModel type="text" placeholder="Property city" #cityInput="ngModel" required>
+                            <mat-error *ngIf="cityInput.invalid">Please enter a city.</mat-error>
+                          </mat-form-field>
+
+                          <button mat-raised-button type="submit" (click)="selectDates(checkInInput.value, checkOutInput.value)">Submit</button>
+                        </form>
+
+
+
+                        <form (submit)="searchPropertiesByName(propertyForm3)" #propertyForm3="ngForm" class="propertyForm" *ngIf="propertyMode === 'searchPropertiesByName'">
+
+                            <h1>Find available properties by name</h1>
+
+                            <mat-form-field>
+                                <input matInput name="check_in" ngModel type="text" placeholder="Check in date" #checkInInput="ngModel" required>
+                                <mat-error *ngIf="checkInInput.invalid">Please enter a check in date.</mat-error>
+                              </mat-form-field>
+
+                              <mat-form-field>
+                                  <input matInput name="check_out" ngModel type="text" placeholder="Check out date" #checkOutInput="ngModel" required>
+                                  <mat-error *ngIf="checkOutInput.invalid">Please enter a check out date.</mat-error>
+                                </mat-form-field>
+
+                                  <mat-form-field>
+                                    <input matInput name="name" ngModel type="text" placeholder="Property name" #nameInput="ngModel" required>
+                                    <mat-error *ngIf="nameInput.invalid">Please enter a property name.</mat-error>
+                                  </mat-form-field>
+
+                                  <button mat-raised-button type="submit" (click)="selectDates(checkInInput.value, checkOutInput.value)">Submit</button>
+                                </form>
+
+                                <form (submit)="getRoomsAtProperty(propertyForm4)" #propertyForm4="ngForm" class="propertyForm" *ngIf="propertyMode === 'getRoomsAtProperty'">
+
+                              <h1>Find rooms at property</h1>
+
+                              <mat-form-field>
+                                  <input matInput name="check_in" [(ngModel)]="selectedCheckIn" type="text" placeholder="Check in date" #checkInInput="ngModel" required>
+                                  <mat-error *ngIf="checkInInput.invalid">Please enter a check in date.</mat-error>
+                                </mat-form-field>
+
+                                <mat-form-field>
+                                    <input matInput name="check_out" [(ngModel)]="selectedCheckOut" type="text" placeholder="Check out date" #checkOutInput="ngModel" required>
+                                    <mat-error *ngIf="checkOutInput.invalid">Please enter a check out date.</mat-error>
+                                  </mat-form-field>
+
+                                    <mat-form-field>
+                                      <input matInput name="name" [(ngModel)]="selectedPropertyName" type="text" placeholder="Property name" #nameInput="ngModel" required>
+                                      <mat-error *ngIf="nameInput.invalid">Please enter a property name.</mat-error>
+                                    </mat-form-field>
+
+                                    <button mat-raised-button type="submit">Submit</button>
+                                  </form>
+        </mat-tab>
+
+
+        <mat-tab label="Payment">
+
+            <!--Payment related functionality for user-->
+            <div class="select-container">
+                <select (change)="onChange($event.target.value)">
+                    <option value=paymentInformation>Add payment information</option>
+                </select>
+            </div>
+
+            <form (submit)="createPaymentInformation(propertyForm8)" #propertyForm8="ngForm" class="propertyForm" *ngIf="propertyMode === 'paymentInformation'">
+
+              <h1>Add a new card</h1>
+
+              <mat-form-field>
+                <input matInput name="card_num" ngModel type="text" placeholder="Card number" #cardInput="ngModel" required>
+                <mat-error *ngIf="cardInput.invalid">Enter card number</mat-error>
+              </mat-form-field>
+
+
+              <mat-form-field>
+                <input matInput name="card_type" ngModel type="text" placeholder="Card type" #typeInput="ngModel" required>
+                <mat-error *ngIf="typeInput.invalid">Enter rating</mat-error>
+              </mat-form-field>
+
+
+              <mat-form-field>
+                <input matInput name="cvv" ngModel type="text" placeholder="CVV" #cvvInput="ngModel" required>
+                <mat-error *ngIf="cvvInput.invalid">Enter CVV</mat-error>
+              </mat-form-field>
+
+
+              <mat-form-field>
+                <input matInput name="expiry_month" ngModel type="text" placeholder="Expiry month" #monthInput="ngModel" required>
+                <mat-error *ngIf="monthInput.invalid">Enter expiry month</mat-error>
+              </mat-form-field>
+
+
+              <mat-form-field>
+                <input matInput name="expiry_year" ngModel type="text" placeholder="Expiry year" #yearInput="ngModel" required>
+                <mat-error *ngIf="yearInput.invalid">Enter expiry year</mat-error>
+              </mat-form-field>
+
+
+              <mat-form-field>
+                <input matInput name="street_address" ngModel type="text" placeholder="Street address" #streetInput="ngModel" required>
+                <mat-error *ngIf="streetInput.invalid">Enter street address</mat-error>
+              </mat-form-field>
+
+              <mat-form-field>
+                <input matInput name="unit_number" ngModel type="text" placeholder="Unit number" #unitInput="ngModel">
+                <mat-error *ngIf="unitInput.invalid">Enter unit number</mat-error>
+              </mat-form-field>
+
+
+              <mat-form-field>
+                <input matInput name="country" ngModel type="text" placeholder="Country" #countryInput="ngModel" required>
+                <mat-error *ngIf="countryInput.invalid">Enter country</mat-error>
+              </mat-form-field>
+
+
+              <mat-form-field>
+                <input matInput name="postal_code" ngModel type="text" placeholder="Postal code" #postalInput="ngModel" required>
+                <mat-error *ngIf="postalInput.invalid">Enter postal code</mat-error>
+              </mat-form-field>
+
+
+              <mat-form-field>
+                <input matInput name="city" ngModel type="text" placeholder="City" #cityInput="ngModel" required>
+                <mat-error *ngIf="cityInput.invalid">Enter city</mat-error>
+              </mat-form-field>
+
+
+              <mat-form-field>
+                <input matInput name="province" ngModel type="text" placeholder="Province" #provinceInput="ngModel" required>
+                <mat-error *ngIf="provinceInput.invalid">Enter province</mat-error>
+              </mat-form-field>
+
+
+                    <button mat-raised-button type="submit">Submit</button>
+                  </form>
+
+        </mat-tab>
+
+
+        <mat-tab label="Reservations">
+
+          <div class="select-container">
+            <select (change)="onChange($event.target.value)">
+                <option value=getReservationsForUser>Find my reservations</option>
+                <option value=bookReservation>Book a reservation</option>
+            </select>
+        </div>
+
+        <form (submit)="getReservationsForUser(propertyForm10)" #propertyForm10="ngForm" class="propertyForm" *ngIf="propertyMode === 'getReservationsForUser'">
+
+          <h1>Get reservations for user</h1>
+
+          <button mat-raised-button type="submit">Submit</button>
+
+        </form>
+
+          <form (submit)="bookReservation(propertyForm11)" #propertyForm11="ngForm" class="propertyForm" *ngIf="propertyMode === 'bookReservation'">
+
+            <h1>Book a reservation</h1>
+
+
+            <mat-form-field>
+              <input matInput name="check_in" [(ngModel)]="selectedCheckIn" type="text" placeholder="Check in date" #checkInDate="ngModel" required>
+              <mat-error *ngIf="checkInDate.invalid">Enter check in date</mat-error>
+            </mat-form-field>
+
+
+            <mat-form-field>
+              <input matInput name="check_out" [(ngModel)]="selectedCheckOut" type="text" placeholder="Check out date" #checkOutDate="ngModel" required>
+              <mat-error *ngIf="checkOutDate.invalid">Enter check out date</mat-error>
+            </mat-form-field>
+
+            <mat-form-field>
+              <input matInput name="property_name" [(ngModel)]="selectedPropertyName" type="text" placeholder="Property name" #propertyInput="ngModel" required>
+              <mat-error *ngIf="propertyInput.invalid">Enter property name</mat-error>
+            </mat-form-field>
+
+            <mat-form-field>
+              <input matInput name="room_num" type="text" placeholder="Room number" [(ngModel)]="selectedRoom" #roomInput="ngModel" required>
+              <mat-error *ngIf="roomInput.invalid">Enter room number</mat-error>
+            </mat-form-field>
+
+            <mat-form-field>
+              <input matInput name="card_num" type="text" placeholder="Card number" [(ngModel)]="selectedPayment" #cardInput="ngModel" required>
+              <mat-error *ngIf="cardInput.invalid">Enter card number</mat-error>
+            </mat-form-field>
+
+            <button mat-raised-button type="submit">Submit</button>
+          </form>
+
+        </mat-tab>
+        <mat-tab label="Reviews">
+
+
+            <!--Review related functionality for user-->
+
+            <div class="select-container">
+                <select (change)="onChange($event.target.value)">
+                    <option value=getAverageReviewForProperty>View rating for a property</option>
+                    <option value=addReviewToProperty>Add review to a property</option>
+                </select>
+            </div>
+
+            <form (submit)="getAverageReviewForProperty(propertyForm5)" #propertyForm5="ngForm" class="propertyForm" *ngIf="propertyMode === 'getAverageReviewForProperty'">
+
+            <h1>Get rating for property</h1>
+
+                <mat-form-field>
+                  <input matInput name="property_name" type="text" placeholder="Property name" [(ngModel)]="selectedPropertyName" #propertyInput="ngModel" required>
+                  <mat-error *ngIf="propertyInput.invalid">Enter property name</mat-error>
+                </mat-form-field>
+
+                  <button mat-raised-button type="submit">Submit</button>
+                </form>
+
+                <form (submit)="addReviewToProperty(propertyForm6)" #propertyForm6="ngForm" class="propertyForm" *ngIf="propertyMode === 'addReviewToProperty'">
+
+                <h1>Create review for property</h1>
+
+                <mat-form-field>
+                  <input matInput name="property_name" [(ngModel)]="selectedPropertyName"  type="text" placeholder="Property name" #propertyInput="ngModel" required>
+                  <mat-error *ngIf="propertyInput.invalid">Enter rating</mat-error>
+                </mat-form-field>
+
+                    <mat-form-field>
+                      <input matInput name="rating" ngModel type="number" min="1" max="10" placeholder="Rating" #ratingInput="ngModel" required>
+                      <mat-error *ngIf="ratingInput.invalid">Rating</mat-error>
+                    </mat-form-field>
+
+                      <button mat-raised-button type="submit">Submit</button>
+                    </form>
+
+        </mat-tab>
+        </mat-tab-group>
+
+
+
+
+
+        <!--Search results will be displayed here (display modified based on search type)-->
+        <div class="result-container">
+
+          <div *ngIf="propertyMode === 'getReservationsForUser'">
+            <div *ngFor="let property of propertiesResult" class="result-item col-6">
+                <p>{{ "Your reservation id: " + property.reservation_id }}</p>
+                <p>{{ "Property name: " + property.property_name }}</p>
+                <p>{{ "Phone number: " + property.phone_number }}</p>
+                <p>{{ "Check in date: " + property.check_in.substring(0, 10) }}</p>
+                <p>{{ "Check out date: " + property.check_out.substring(0, 10) }}</p>
+                <p>{{ "Reservation bill: " + property.total_price }}</p>
+            </div>
+        </div>
+
+            <div *ngIf="propertyMode === 'searchProperties' || propertyMode === 'searchPropertiesByCity' || propertyMode === 'searchPropertiesByName'">
+                <div *ngFor="let property of propertiesResult" class="result-item col-6 clickable" (click)="selectProperty(property.property_name)">
+                    <p>{{ "Property name: " + property.property_name }}</p>
+                    <p>{{ "Phone number: " + property.phone_number }}</p>
+                    <p>{{ "Street address: " + property.street_address }}</p>
+                    <p>{{ "Unit number: " + property.unit_number }}</p>
+                    <p>{{ "Property country: " + property.country }}</p>
+                    <p>{{ "Postal code: " + property.postal_code }}</p>
+                </div>
+            </div>
+
+            <div *ngIf="propertyMode === 'getRoomsAtProperty'">
+                <div *ngFor="let property of propertiesResult" class="result-item col-4 clickable" (click)="selectProperty(property.propertyName); selectRoom(property.roomNum)">
+                    <p>{{ "Property name: " + property.propertyName }}</p>
+                    <p>{{ "Description: " + property.description }}</p>
+                    <p>{{ "Room number: " + property.roomNum }}</p>
+                    <p>{{ "Total cost for reservation: " + property.totalCost }}</p>
+                </div>
+            </div>
+
+            <div *ngIf="propertyMode === 'getAverageReviewForProperty'">
+              <div *ngFor="let property of propertiesResult" class="result-item col-2">
+                  <p>{{ "Property name: " + property.propertyName }}</p>
+                  <p>{{ "Rating: " + property.rating }}</p>
+              </div>
+          </div>
+
+          <div *ngIf="currTab === 'Payment'">
+            <h2>Existing cards: </h2>
+            <div *ngFor="let card of cardNum" class="col-1 clickable" (click)="selectPayment(card.card_num)">
+                <p>{{ "Card number: " + card.card_num }}</p>
+            </div>
+        </div>
+        </div>
+
+
+    </div>
+</div>

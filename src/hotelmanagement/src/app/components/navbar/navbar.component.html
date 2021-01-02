@@ -1,0 +1,14 @@
+<nav>
+    <div class="nav-container">
+     <a routerLink="/">hotelUs</a>
+      <div class="nav-links" *ngIf="!authenticated">
+          <a routerLink="/register">Register</a>
+          <a routerLink="/login">Login</a>
+      </div>
+      <div class="nav-links" *ngIf="authenticated">
+        <a routerLink="/user">Dashboard</a>
+        <a (click)="logout()">Logout</a>
+    </div>
+    </div>
+  </nav>
+  

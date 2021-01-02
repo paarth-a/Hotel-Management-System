@@ -1,0 +1,53 @@
+.user-side {
+    display: flex;
+    flex-direction: column;
+    background: white;
+    padding: 40px;
+    overflow: auto;
+}
+
+.title{
+    font-size: 2rem;
+    font-weight: 200;
+}
+
+.propertyForm{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+button{
+    margin-bottom: 3rem;
+}
+
+.result-container{
+    display: flex;
+    justify-content: center;
+    width: 85%;
+    margin: auto;
+}
+
+.result-item{
+    display: grid;
+    padding: 1rem;
+    border-radius: .3rem;
+    row-gap: 1.2rem;
+    margin-bottom: 2rem;
+    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.2);
+    text-align: center;
+}
+
+/* change display view based on search result type */
+.col-6{
+    grid-template-columns: repeat(6, 1fr);
+}
+
+.col-4{
+    grid-template-columns: repeat(4, 1fr);
+}
+
+.col-2{
+    grid-template-columns: repeat(2, 1fr);
+}
